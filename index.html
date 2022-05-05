@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100px;
+            height:100px;
+            background-color:red;
+            opacity:0.5;
+            border-radius:50%;
+            border:solid 3px yellow;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <script>
+        var oDiv=document.getElementsByTagName("div")[0];
+        
+        oDiv.onclick=function(){
+            startMove(this);
+        }
+        function startMove(dom) {
+            var speedX=5;
+            var speedY=9;
+            var g=3;//加速度
+            clearInterval(dom.timer);
+            dom.timer=setInterval(function () {
+                speedY=speedY+g;//重力
+               var newTop=dom.offsetTop+speedY;
+               var newLeft=dom.offsetLeft+speedX;
+               
+
+               if (newTop>=document.documentElement.clientHeight-dom.clientHeight) {
+                   speedY=speedY*(-1);
+                   speedY=speedY*0.8;//能量损耗
+                   speedX=speedX*0.8;
+                   newTop=document.documentElement.clientHeight-dom.clientHeight;
+               }
+               if(newTop<=0){
+                speedY=speedY*(-1);
+                speedY=speedY*0.8;//能量损耗
+                speedX=speedX*0.8;
+                 newTop=0;
+               
+               }
+               /////////////////////////////////////////
+               if (newLeft>=document.documentElement.clientWidth-dom.clientWidth) {
+                   speedX=speedX*(-1);
+                   speedY=speedY*0.8;//能量损耗
+                   speedX=speedX*0.8;
+                   newLeft=document.documentElement.clientWidth-dom.clientWidth
+                  
+               }
+               if(newLeft<=0){
+                speedX=speedX*(-1);
+                speedY=speedY*0.8;//能量损耗
+                   speedX=speedY*0.8;
+                newLeft=0;
+               
+               }
+               if(Math.abs(speedX)<1){
+                   speedX=0;
+               }
+               if(Math.abs(speedY)<1){
+                   speedY=0;
+               }
+               if(speedX==0&&speedY==0 && newTop == document.documentElement.clientHeight-dom.clientHeight){
+                clearInterval(dom.timer)
+            }else{
+                dom.style.top=newTop+'px';
+                dom.style.left=newLeft+'px';
+               }
+
+               
+        }, 30);
+        }
+        
+
+    </script>
+</body>
+</html>
